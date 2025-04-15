@@ -3,6 +3,7 @@ variable "role_name" {
   type        = string
 }
 
+
 variable "policy_arn" {
   description = "Policy ARN to attach"
   type        = string
