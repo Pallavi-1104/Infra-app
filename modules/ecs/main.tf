@@ -22,14 +22,14 @@ resource "aws_iam_role" "ecs_tasks_role" {
 
 resource "aws_iam_role_policy_attachment" "ecs_tasks_role_policy_attachment" {
   role_name = aws_iam_role.ecs_tasks_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonECSFullAccess" # Replace
+  policy_arn = "arn:aws:iam::aws:policy/AmazonECS_FullAccess" # Replace
 }
 
 resource "aws_ecs_task_definition" "mongodb_task_definition" {
   family                   = "mongodb-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_instance_role.arn
   task_role_arn            = aws_iam_role.ecs_tasks_role.arn
 
   container_definitions = jsonencode([
@@ -78,7 +78,7 @@ resource "aws_ecs_task_definition" "nodejs_app_task_definition" {
   family                   = "nodejs-app-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_instance_role.arn
   task_role_arn            = aws_iam_role.ecs_tasks_role.arn
 
   container_definitions = jsonencode([
@@ -171,4 +171,7 @@ resource "aws_lb_listener" "listener" {
 
 output "load_balancer_dns" {
   value = aws_lb.load_balancer.dns_name
+}
+output "ecs_cluster_id" {
+  value = aws_ecs_cluster.ecs_cluster.id
 }

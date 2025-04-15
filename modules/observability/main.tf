@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "prometheus_log_group" {
   name = "/aws/prometheus"
 }
 
-resource "aws_ec2_instance" "prometheus" {
+resource "aws_instance" "prometheus" {
   ami           = "ami-0c55b9dcb338f9877" #  Replace with a Prometheus-ready AMI
   instance_type = "t3.medium"
   subnet_id     = var.subnet_public_1_id
@@ -44,7 +44,7 @@ resource "aws_cloudwatch_log_group" "grafana_log_group" {
   name = "/aws/grafana"
 }
 
-resource "aws_ec2_instance" "grafana" {
+resource "aws_instance" "grafana" {
   ami           = "ami-0c55b9dcb338f9877" # Replace with a Grafana-ready AMI
   instance_type = "t3.medium"
   subnet_id     = var.subnet_public_2_id

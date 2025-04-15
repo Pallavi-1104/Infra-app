@@ -37,7 +37,7 @@ resource "aws_launch_configuration" "ecs_launch_configuration" {
 data "template_file" "ecs_agent_config" {
   template = <<EOF
 #!/bin/bash
-echo ECS_CLUSTER=${aws_ecs_cluster.ecs_cluster.name} >> /etc/ecs/ecs.config
+echo ECS_CLUSTER=${var.ecs_cluster_id} >> /etc/ecs/ecs.config
 EOF
 }
 
@@ -87,6 +87,10 @@ resource "aws_instance" "ec2_instance" {
   iam_instance_profile    = aws_iam_instance_profile.name
   user_data              = data.template_file.ecs_agent_config.rendered
   associate_public_ip    = true
+}
+
+output "asg_name" {
+  value = aws_autoscaling_group.ecs_asg.name
 }
 
 

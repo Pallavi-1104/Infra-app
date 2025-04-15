@@ -8,11 +8,18 @@ variable "subnet_id" {
   description = "The ID of the Subnet"
   type        = string
 }
+
 variable "subnet_public_1_id" {
   description = "The ID of the Subnet"
   type        = string
 }
+
 variable "subnet_public_2_id" {
   description = "The ID of the Subnet"
+  type        = string
+}
+
+variable "ecs_cluster_id" {
+  description = "The ID of the ECS Cluster"
   type        = string
 }
