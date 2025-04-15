@@ -12,9 +12,11 @@ provider "aws" {
 }
 
 module "iam" {
-  source = "./modules/iam"  # Path to your IAM module
-  # Add any required input variables for this module here
+  source = "./modules/iam"
+  # Add variables required by the IAM module here, for example:
+  # iam_role_name = "ecs-role"
 }
+
 
 module "network" {
   source = "./modules/network"
