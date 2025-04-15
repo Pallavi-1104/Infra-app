@@ -8,6 +8,7 @@ resource "aws_instance" "prometheus" {
   ami           = "ami-00a929b66ed6e0de6"
   instance_type = "t2.micro"
   subnet_id     = var.subnet_public_1_id
+  associate_public_ip_address = true
   security_groups = [var.ecs_instance_sg_id]
   tags = {
     Name = "Prometheus"
@@ -18,6 +19,7 @@ resource "aws_instance" "grafana" {
   ami           = "ami-00a929b66ed6e0de6"
   instance_type = "t2.micro"
   subnet_id     = var.subnet_public_2_id
+  associate_public_ip_address = true
   security_groups = [var.ecs_instance_sg_id]
   tags = {
     Name = "Grafana"
