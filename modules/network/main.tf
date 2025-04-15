@@ -59,3 +59,24 @@ resource "aws_route_table_association" "rta_public_2" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_security_group" "ecs_instance_sg" {
+  vpc_id = aws_vpc.main.id
+
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+  }
+
+  ingress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+  }
+
+  tags = {
+    Name = "ecs-instance-sg"
+  }
+}

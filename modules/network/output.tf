@@ -10,5 +10,10 @@ output "subnet_public_2_id" {
   value = aws_subnet.public_2.id
 }
 
+output "ecs_instance_sg_id" {
+  value = aws_security_group.ecs_instance_sg.id
+}
+
+
 
 
