@@ -27,7 +27,7 @@ resource "aws_launch_configuration" "ecs_launch_configuration" {
   image_id            = "ami-0c55b9dcb338f9877" # Replace with a suitable Amazon Linux 2 AMI
   instance_type       = "t3.medium"
   security_groups     = [aws_security_group.ecs_instance_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
+  iam_instance_profile = aws_iam_instance_profile.name
   user_data           = data.template_file.ecs_agent_config.rendered
   lifecycle {
     create_before_destroy = true
@@ -89,8 +89,5 @@ resource "aws_instance" "ec2_instance" {
   associate_public_ip    = true
 }
 
-output "asg_name" {
-  value = aws_autoscaling_group.ecs_asg.name
-}
 
     
