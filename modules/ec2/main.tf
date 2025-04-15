@@ -1,4 +1,4 @@
-# modules/ec2/main.tf  (Corrected)
+# modules/ec2/main.tf
 resource "aws_iam_role" "ecs_instance_role" {
   name = "ecs-instance-role"
 
@@ -18,7 +18,7 @@ resource "aws_iam_role" "ecs_instance_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_instance_role_policy_attachment" {
-  role_name = aws_iam_role.ecs_instance_role.name
+  role    = aws_iam_role.ecs_instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
@@ -89,7 +89,6 @@ resource "aws_instance" "ec2_instance" {
   associate_public_ip    = true
 }
 
-#  IMPORTANT:  OUTPUT REMOVED FROM HERE
-
-
-    
+output "asg_name" {
+  value = aws_autoscaling_group.ecs_asg.name
+}

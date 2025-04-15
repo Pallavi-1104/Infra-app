@@ -11,3 +11,4 @@ variable "subnet_public_2_id" {
   description = "The ID of the public subnet 2"
   type        = string
 }
+
