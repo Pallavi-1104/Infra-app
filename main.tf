@@ -20,6 +20,8 @@ module "ec2" {
   source    = "./modules/ec2"
   vpc_id    = module.network.vpc_id
   subnet_id = module.network.subnet_public_1_id
+  subnet_public_1_id = module.network.subnet_public_1_id
+  subnet_public_2_id = module.network.subnet_public_2_id
 }
 
 module "ecs" {
