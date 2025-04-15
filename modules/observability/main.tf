@@ -73,10 +73,4 @@ resource "aws_security_group_rule" "allow_prometheus_nodejs" {
   security_group_id = aws_security_group.ecs_instance_sg.id
 }
 
-output "prometheus_instance_id" {
-  value = aws_instance.prometheus.id
-}
 
-output "grafana_instance_id" {
-  value = aws_instance.grafana.id
-}
