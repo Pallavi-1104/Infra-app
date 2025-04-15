@@ -24,11 +24,12 @@ variable "name_prefix" {
 }
 
 variable "vpc_id" {
-  description = "VPC ID where EC2 is deployed"
+  description = "VPC ID"
   type        = string
 }
 
 variable "subnet_id" {
-  description = "Subnet ID to place EC2 in"
+  description = "Subnet ID"
   type        = string
 }
+
