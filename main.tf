@@ -11,6 +11,10 @@ provider "aws" {
   region = "us-east-1"
 }
 
+module "iam" {
+  source = "./modules/iam"  # Or wherever your IAM module is located
+}
+
 module "network" {
   source = "./modules/network"
 }
@@ -21,6 +25,10 @@ module "ecs_cluster" {
   vpc_id              = module.network.vpc_id
   subnet_public_1_id  = module.network.subnet_public_1_id
   subnet_public_2_id  = module.network.subnet_public_2_id
+}
+
+data "aws_ssm_parameter" "ecs_ami" {
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
 }
 
 module "general_ec2" {
