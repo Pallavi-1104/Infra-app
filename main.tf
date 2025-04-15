@@ -12,11 +12,11 @@ provider "aws" {
 }
 
 module "iam" {
-  source = "./modules/iam"
-  # Add variables required by the IAM module here, for example:
-  # iam_role_name = "ecs-role"
-}
+  source     = "./modules/iam"
 
+  role_name  = "my-ec2-role"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
+}
 
 module "network" {
   source = "./modules/network"
