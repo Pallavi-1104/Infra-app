@@ -44,7 +44,7 @@ resource "aws_iam_instance_profile" "ecs_instance_profile" {
 
 resource "aws_launch_configuration" "ecs_launch_configuration" {
   name_prefix          = "ecs-launch-config"
-  image_id             = "ami-0c55b159cbfafe1f0" # Example Amazon Linux 2 ECS-optimized AMI
+  image_id             = "ami-00a929b66ed6e0de6" # Example Amazon Linux 2 ECS-optimized AMI
   instance_type        = "t2.micro"
   security_groups      = [aws_security_group.ecs_instance_sg.id]
   iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
