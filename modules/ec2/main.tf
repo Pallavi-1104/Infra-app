@@ -88,7 +88,3 @@ resource "aws_instance" "ec2_instance" {
   user_data              = data.template_file.ecs_agent_config.rendered
   associate_public_ip    = true
 }
-
-output "asg_name" {
-  value = aws_autoscaling_group.ecs_asg.name
-}
