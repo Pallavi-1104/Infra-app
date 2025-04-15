@@ -1,5 +1,3 @@
-# modules/ecs/main.tf
-# (Add this missing resource)
 resource "aws_iam_role" "ecs_tasks_role" {
   name = "ecs-tasks-role"
 
