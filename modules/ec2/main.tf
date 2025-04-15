@@ -1,4 +1,4 @@
-# modules/ec2/main.tf
+# modules/ec2/main.tf  (Corrected)
 resource "aws_iam_role" "ecs_instance_role" {
   name = "ecs-instance-role"
 
@@ -89,9 +89,7 @@ resource "aws_instance" "ec2_instance" {
   associate_public_ip    = true
 }
 
-output "asg_name" {
-  value = aws_autoscaling_group.ecs_asg.name
-}
+#  IMPORTANT:  OUTPUT REMOVED FROM HERE
 
 
     
