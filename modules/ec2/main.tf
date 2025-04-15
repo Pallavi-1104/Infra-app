@@ -1,12 +1,8 @@
 # modules/ec2/main.tf
 
-resource "random_id" "sg_id" {
-  byte_length = 8
-}
-
 resource "aws_security_group" "ecs_instance_sg" {
-  name        = "ecs-instance-sg-${random_id.sg_id.hex}"  # Unique name
-  description = "Security group for ECS EC2 instances"
+  name        = "${var.name_prefix}-ecs-instance-sg"
+  description = "SG for ECS instance"
   vpc_id      = var.vpc_id
   ingress {
     from_port   = 0
@@ -46,21 +42,28 @@ resource "aws_iam_role" "ecs_instance_role" {
 
 
 resource "aws_iam_instance_profile" "ecs_instance_profile" {
-  name = "ecs-instance-profile"
+  name = "${var.name_prefix}-instance-profile"
   role = aws_iam_role.ecs_instance_role.name
 }
 
-data "aws_ssm_parameter" "ecs_ami" {
-  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+resource "aws_launch_template" "ecs_launch_template" {
+  name_prefix   = "ecs-launch-template"
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+
+  iam_instance_profile {
+    name = var.instance_profile
+  }
+
+  network_interfaces {
+    associate_public_ip_address = true
+    security_groups              = [var.security_group_id]
+  }
+
+  user_data = base64encode(file("${path.module}/user_data.sh"))
 }
 
-resource "aws_launch_configuration" "ecs_launch_configuration" {
-  image_id             = data.aws_ssm_parameter.ecs_ami.value  # Get the latest ECS AMI from SSM
-  instance_type        = "t2.micro"
-  security_groups      = [aws_security_group.ecs_instance_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.ecs_instance_profile.name
-  associate_public_ip_address = true
-}
+
 
 
 resource "aws_autoscaling_group" "ecs_asg" {
@@ -68,7 +71,10 @@ resource "aws_autoscaling_group" "ecs_asg" {
   max_size             = 1
   min_size             = 1
   vpc_zone_identifier  = [var.subnet_id]
-  launch_configuration = aws_launch_configuration.ecs_launch_configuration.name
+  launch_template {
+  id      = aws_launch_template.ecs_launch_template.id
+  version = "$Latest"
+}
   tag {
     key                 = "Name"
     value               = "ecs-instance"
