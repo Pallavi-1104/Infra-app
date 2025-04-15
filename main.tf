@@ -31,6 +31,8 @@ module "general_ec2" {
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
   name_prefix       = "general"
+  vpc_id            = module.network.vpc_id
+  subnet_id         = module.network.subnet_public_1_id
 }
 
 
@@ -42,9 +44,8 @@ module "app_ec2" {
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
   name_prefix       = "app"
-
-  vpc_id     = module.network.vpc_id
-  subnet_id  = module.network.subnet_public_1_id
+  vpc_id            = module.network.vpc_id
+  subnet_id         = module.network.subnet_public_1_id
 }
 
 
