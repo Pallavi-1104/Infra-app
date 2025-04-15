@@ -22,6 +22,7 @@ module "ec2" {
   subnet_id = module.network.subnet_public_1_id
   subnet_public_1_id = module.network.subnet_public_1_id
   subnet_public_2_id = module.network.subnet_public_2_id
+  ecs_cluster_id = module.ecs.ecs_cluster_id
 }
 
 module "ecs" {
