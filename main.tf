@@ -11,8 +11,9 @@ provider "aws" {
   region = "us-east-1"
 }
 
-#module "iam" {
-  source = "./modules/iam"  # Or wherever your IAM module is located
+module "iam" {
+  source = "./modules/iam"  # Path to your IAM module
+  # Add any required input variables for this module here
 }
 
 module "network" {
