@@ -1,8 +1,8 @@
-# modules/observability/outputs.tf
+# modules/observability/output.tf
 output "prometheus_instance_id" {
-  value = aws_ec2_instance.prometheus.id
+  value = aws_instance.prometheus.id
 }
 
 output "grafana_instance_id" {
-  value = aws_ec2_instance.grafana.id
+  value = aws_instance.grafana.id
 }
