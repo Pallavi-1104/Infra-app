@@ -17,22 +17,22 @@ module "network" {
 }
 
 module "ec2" {
-  source = "./modules/ec2"
-  vpc_id  = module.network.vpc_id
+  source    = "./modules/ec2"
+  vpc_id    = module.network.vpc_id
   subnet_id = module.network.subnet_public_1_id
 }
 
 module "ecs" {
-  source = "./modules/ecs"
-  vpc_id = module.network.vpc_id
-  subnet_public_1_id = module.network.subnet_public_1.id
-  subnet_public_2_id = module.network.subnet_public_2.id
+  source            = "./modules/ecs"
+  vpc_id            = module.network.vpc_id
+  subnet_public_1_id = module.network.subnet_public_1_id
+  subnet_public_2_id = module.network.subnet_public_2_id
 }
 
 module "observability" {
-  source = "./modules/observability"
-  vpc_id = module.network.vpc_id
-  subnet_public_1_id = module.network.subnet_public_1.id
-  subnet_public_2_id = module.network.subnet_public_2.id
+  source            = "./modules/observability"
+  vpc_id            = module.network.vpc_id
+  subnet_public_1_id = module.network.subnet_public_1_id
+  subnet_public_2_id = module.network.subnet_public_2_id
 }
 
