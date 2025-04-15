@@ -34,10 +34,14 @@ data "aws_ssm_parameter" "ecs_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
 }
 
+locals {
+  ecs_ami_id = jsondecode(data.aws_ssm_parameter.ecs_ami.value).image_id
+}
+
 module "general_ec2" {
   source = "./modules/ec2"
 
-  ami_id            = data.aws_ssm_parameter.ecs_ami.value
+  ami_id            = local.ecs_ami_id
   instance_type     = "t3.micro"
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
@@ -50,7 +54,7 @@ module "general_ec2" {
 module "app_ec2" {
   source = "./modules/ec2"
 
-  ami_id            = data.aws_ssm_parameter.ecs_ami.value
+  ami_id            = local.ecs_ami_id
   instance_type     = "t3.micro"
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
