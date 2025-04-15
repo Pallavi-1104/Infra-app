@@ -1,9 +1,11 @@
-resource "aws_vpc" "main" {
+resource "aws_vpc" "vpc" {
   cidr_block = "10.0.0.0/16"
+
   tags = {
     Name = "main-vpc"
   }
 }
+
 
 resource "aws_subnet" "public_1" {
   vpc_id                  = aws_vpc.main.id
