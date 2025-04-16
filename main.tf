@@ -89,7 +89,6 @@ module "containers" {
     module.network.subnet_public_2_id
   ]
   security_group_id  = module.network.ecs_instance_sg_id
-  ecs_cluster_id     = module.ecs_cluster.ecs_cluster_id
   execution_role_arn = module.iam.execution_role_arn
   task_role_arn      = module.iam.task_role_arn
 }
