@@ -32,6 +32,17 @@ locals {
   ecs_ami_id = jsondecode(data.aws_ssm_parameter.ecs_ami.value).image_id
 }
 
+resource "aws_lb" "main" {
+  name               = "my-alb"
+  internal           = false
+  load_balancer_type = "application"
+  subnets            = [
+    module.network.subnet_public_1_id,
+    module.network.subnet_public_2_id
+  ]
+  security_groups    = [module.network.ecs_instance_sg_id]
+}
+
 module "general_ec2" {
   source = "./modules/ec2"
 
@@ -42,6 +53,7 @@ module "general_ec2" {
   name_prefix       = "general"
   vpc_id            = module.network.vpc_id
   subnet_id         = module.network.subnet_public_1_id
+  alb_arn           = aws_lb.main.arn     # <- add this
 }
 
 
@@ -55,6 +67,7 @@ module "app_ec2" {
   name_prefix       = "app"
   vpc_id            = module.network.vpc_id
   subnet_id         = module.network.subnet_public_1_id
+  alb_arn           = aws_lb.main.arn     # <- add this
 }
 
 
