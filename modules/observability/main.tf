@@ -26,6 +26,19 @@ resource "aws_instance" "grafana" {
   }
 }
 
+resource "aws_cloudwatch_dashboard" "main" {
+  dashboard_name = "MyDashboard"
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type = "metric",
+        ...
+      }
+    ]
+  })
+}
+
+
 resource "aws_security_group_rule" "allow_prometheus_nodejs" {
   type              = "ingress"
   from_port         = 9090

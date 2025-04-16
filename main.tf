@@ -42,7 +42,7 @@ module "general_ec2" {
   source = "./modules/ec2"
 
   ami_id            = local.ecs_ami_id
-  instance_type     = "t3.micro"
+  instance_type     = "t2.micro"
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
   name_prefix       = "general"
@@ -55,7 +55,7 @@ module "app_ec2" {
   source = "./modules/ec2"
 
   ami_id            = local.ecs_ami_id
-  instance_type     = "t3.micro"
+  instance_type     = "t2.micro"
   instance_profile  = module.iam.instance_profile_name
   security_group_id = module.network.ecs_instance_sg_id
   name_prefix       = "app"
