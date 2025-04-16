@@ -1,9 +1,12 @@
 #!/bin/bash
-# This script can be used to configure your EC2 instances on startup
-
-# Update packages and install necessary software
+# Install Docker and ECS agent
 yum update -y
 yum install -y docker
-
-# Start Docker service
 service docker start
+
+# Enable ECS agent at boot and set cluster name
+echo "ECS_CLUSTER=my-ecs-cluster" >> /etc/ecs/ecs.config
+echo "ECS_BACKEND_HOST=" >> /etc/ecs/ecs.config
+
+# Start the ECS agent
+start ecs

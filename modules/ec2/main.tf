@@ -82,14 +82,14 @@ resource "aws_autoscaling_group" "ecs_asg" {
   }
 }
 
-resource "aws_instance" "ec2_instance" {
-  ami                         = "ami-00a929b66ed6e0de6"
-  instance_type               = "t2.micro"
-  subnet_id                   = var.subnet_id
-  vpc_security_group_ids      = [aws_security_group.ecs_instance_sg.id]
-  associate_public_ip_address = true
-  iam_instance_profile        = aws_iam_instance_profile.ecs_instance_profile.name
-  tags = {
-    Name = "ECS EC2 Instance"
-  }
-}
+#resource "aws_instance" "ec2_instance" {
+  #ami                         = "ami-00a929b66ed6e0de6"
+  #instance_type               = "t2.micro"
+  #subnet_id                   = var.subnet_id
+  #vpc_security_group_ids      = [aws_security_group.ecs_instance_sg.id]
+  #associate_public_ip_address = true
+  #iam_instance_profile        = aws_iam_instance_profile.ecs_instance_profile.name
+  #tags = {
+   # Name = "ECS EC2 Instance"
+  #}
+#}
