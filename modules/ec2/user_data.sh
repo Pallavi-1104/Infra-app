@@ -12,7 +12,7 @@ echo "ECS_BACKEND_HOST=" >> /etc/ecs/ecs.config
 start ecs
 
 
-# Create directories
+ /*Create directories
 mkdir -p /etc/prometheus /var/lib/prometheus /etc/grafana /opt/node_exporter
 
 # Download and setup Prometheus
@@ -72,4 +72,12 @@ EOF
 
 systemctl daemon-reload
 systemctl enable node_exporter
-systemctl start node_exporter
+systemctl start node_exporter*/
+
+mkdir -p /ecs/prometheus_config
+cat <<EOF > /ecs/prometheus_config/prometheus.yml
+$(cat /etc/ecs/prometheus/prometheus.yml)
+EOF
+
+#!/bin/bash
+mkdir -p /ecs/mongo-data

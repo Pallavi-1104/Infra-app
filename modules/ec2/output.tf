@@ -11,3 +11,6 @@ output "asg_name" {
   value = aws_autoscaling_group.ecs_asg.name
 }
 
+output "prometheus_url" {
+  value = "http://${aws_ecs_service.prometheus_grafana.load_balancer.dns_name}:9090"
+}

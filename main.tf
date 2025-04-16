@@ -23,13 +23,6 @@ module "network" {
   source = "./modules/network"
 }
 
-# main.tf
-module "ecs_cluster" {
-  source              = "./modules/ecs"
-  vpc_id              = module.network.vpc_id
-  subnet_public_1_id  = module.network.subnet_public_1_id
-  subnet_public_2_id  = module.network.subnet_public_2_id
-}
 
 data "aws_ssm_parameter" "ecs_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
@@ -66,15 +59,37 @@ module "app_ec2" {
 
 
 
-module "observability" {
-  source              = "./modules/observability"
-  vpc_id              = module.network.vpc_id
-  subnet_public_1_id  = module.network.subnet_public_1_id
-  subnet_public_2_id  = module.network.subnet_public_2_id
-  ecs_instance_sg_id  = module.general_ec2.ecs_instance_sg_id
-  ecs_cluster_name    = module.ecs_cluster.ecs_cluster_name # <- add this
-}
+#module "observability" {
+#  source              = "./modules/observability"
+ # vpc_id              = module.network.vpc_id
+  #subnet_public_1_id  = module.network.subnet_public_1_id
+  #subnet_public_2_id  = module.network.subnet_public_2_id
+  #ecs_instance_sg_id  = module.general_ec2.ecs_instance_sg_id
+  #ecs_cluster_name    = module.ecs_cluster.ecs_cluster_name # <- add this
+#}
 
 output "ecs_cluster_name" {
   value = module.ecs_cluster.ecs_cluster_name
 }
+
+module "ecs_cluster" {
+  source              = "./modules/ecs"
+  vpc_id              = module.network.vpc_id
+  subnet_public_1_id  = module.network.subnet_public_1_id
+  subnet_public_2_id  = module.network.subnet_public_2_id
+  ecs_instance_sg_id  = module.general_ec2.ecs_instance_sg_id
+}
+
+module "containers" {
+  source             = "./modules/containers"
+  ecs_cluster_name   = module.ecs_cluster.ecs_cluster_name
+  vpc_id             = module.network.vpc_id
+  subnet_ids         = [
+    module.network.subnet_public_1_id,
+    module.network.subnet_public_2_id
+  ]
+  security_group_id  = module.network.ecs_instance_sg_id
+}
+
+
+
