@@ -1,3 +1,7 @@
+resource "aws_ecs_cluster" "this" {
+  name = "my-ecs-cluster"
+}
+
 resource "aws_iam_role" "ecs_tasks_role" {
   name               = "ecs-tasks-role"
   assume_role_policy = jsonencode({
@@ -13,4 +17,5 @@ resource "aws_iam_role" "ecs_tasks_role" {
     ]
   })
 }
+
 
