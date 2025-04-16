@@ -73,13 +73,11 @@ output "ecs_cluster_name" {
 }
 
 module "ecs_cluster" {
-  source              = "./modules/ecs"
+  source              = "./modules/ecs"   # ✅ This is required
+  ecs_cluster_name    = "my-ecs-cluster"  # Or pass it dynamically if needed
   vpc_id              = module.network.vpc_id
   subnet_public_1_id  = module.network.subnet_public_1_id
   subnet_public_2_id  = module.network.subnet_public_2_id
- # ecs_instance_sg_id  = module.general_ec2.ecs_instance_sg_id
-  ecs_cluster_name    = "my-cluster"  # or whatever name you want
-
 }
 
 module "containers" {
