@@ -94,7 +94,7 @@ module "containers" {
   task_role_arn      = module.iam.task_role_arn
 }
 
-}
+
 
 
 
