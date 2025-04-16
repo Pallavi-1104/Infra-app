@@ -35,17 +35,17 @@ resource "aws_ecs_task_definition" "nodejs_mongo" {
           value = "mongodb://mongo:27017"
         }
       ]
-      links = ["mongo"] # Ensure internal linking
+      links = ["mongo"]
     }
   ])
 
   volume {
-    name = "mongo_data"
-    host_path {
-      path = "/mnt/efs/mongo" # Assumes this exists on EC2 host or EFS is mounted
-    }
+    name      = "mongo_data"
+    host_path = "/mnt/efs/mongo"
   }
 }
+
+
 
 resource "aws_ecs_service" "node_mongo_service" {
   name            = "node-mongo-service"
