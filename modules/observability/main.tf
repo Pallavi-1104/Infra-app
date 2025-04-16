@@ -26,17 +26,30 @@ resource "aws_instance" "grafana" {
   }
 }
 
-resource "aws_cloudwatch_dashboard" "main" {
-  dashboard_name = "MyDashboard"
+resource "aws_cloudwatch_dashboard" "ecs_dashboard" {
+  dashboard_name = "my-ecs-dashboard"
   dashboard_body = jsonencode({
     widgets = [
       {
         type = "metric",
-        ...
+        x    = 0,
+        y    = 0,
+        width = 12,
+        height = 6,
+        properties = {
+          metrics = [
+            [ "AWS/ECS", "CPUUtilization", "ClusterName", "my-ecs-cluster" ]
+          ],
+          period = 300,
+          stat   = "Average",
+          region = "us-east-1",
+          title  = "ECS Cluster CPU Utilization"
+        }
       }
     ]
   })
 }
+
 
 
 resource "aws_security_group_rule" "allow_prometheus_nodejs" {
