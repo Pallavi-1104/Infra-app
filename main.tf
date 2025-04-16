@@ -72,4 +72,9 @@ module "observability" {
   subnet_public_1_id  = module.network.subnet_public_1_id
   subnet_public_2_id  = module.network.subnet_public_2_id
   ecs_instance_sg_id  = module.general_ec2.ecs_instance_sg_id
+  ecs_cluster_name    = module.ecs_cluster.ecs_cluster_name # <- add this
+}
+
+output "ecs_cluster_name" {
+  value = module.ecs_cluster.ecs_cluster_name
 }

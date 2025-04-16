@@ -12,3 +12,6 @@ variable "subnet_public_2_id" {
   type        = string
 }
 
+variable "ecs_cluster_name" {
+  type = string
+}
