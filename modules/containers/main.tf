@@ -4,10 +4,13 @@ resource "aws_ecs_task_definition" "nodejs_mongo" {
   requires_compatibilities = ["EC2"]
   cpu                      = "256"
   memory                   = "512"
-  container_definitions    = jsonencode([
+  execution_role_arn       = var.execution_role_arn
+  task_role_arn            = var.task_role_arn
+
+  container_definitions = jsonencode([
     {
       name      = "mongo"
-      image     = "mongo"
+      image     = "mongo:latest"
       essential = true
       portMappings = [{
         containerPort = 27017
@@ -20,29 +23,29 @@ resource "aws_ecs_task_definition" "nodejs_mongo" {
     },
     {
       name      = "nodejs"
-      image     = "your-node-app-image" # replace with your image
+      image     = "your-node-app-image" # Replace with your Node.js app image
       essential = true
       portMappings = [{
         containerPort = 3000
         hostPort      = 3000
       }]
-      environment = [{
-        name  = "MONGO_URL"
-        value = "mongodb://mongo:27017"
-      }]
+      environment = [
+        {
+          name  = "MONGO_URL"
+          value = "mongodb://mongo:27017"
+        }
+      ]
+      links = ["mongo"] # Ensure internal linking
     }
   ])
 
   volume {
     name = "mongo_data"
     host_path {
-      path = "/mnt/efs/mongo" # could be local disk or EFS
+      path = "/mnt/efs/mongo" # Assumes this exists on EC2 host or EFS is mounted
     }
   }
-
-  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
 }
-
 
 resource "aws_ecs_service" "node_mongo_service" {
   name            = "node-mongo-service"
@@ -52,11 +55,11 @@ resource "aws_ecs_service" "node_mongo_service" {
   launch_type     = "EC2"
 
   network_configuration {
-    subnets         = var.subnet_ids
-    security_groups = [var.security_group_id]
+    subnets          = var.subnet_ids
+    security_groups  = [var.security_group_id]
     assign_public_ip = true
+  }
 
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
-  }
 }
