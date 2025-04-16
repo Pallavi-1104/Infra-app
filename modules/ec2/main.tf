@@ -82,7 +82,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
   }
 }
 
-resource "aws_ecs_service" "prometheus_grafana" {
+/*resource "aws_ecs_service" "prometheus_grafana" {
   name            = "prometheus-grafana"
   cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.prometheus_grafana.arn
@@ -103,9 +103,9 @@ resource "aws_ecs_service" "prometheus_grafana" {
   }
 
   depends_on = [aws_lb_listener.prometheus_listener]
-}
+}*/
 
-resource "aws_lb_target_group" "prometheus_tg" {
+/*resource "aws_lb_target_group" "prometheus_tg" {
   name     = "prometheus-tg"
   port     = 9090
   protocol = "HTTP"
@@ -119,29 +119,29 @@ resource "aws_lb_target_group" "prometheus_tg" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
-}
+}*/
 
-resource "aws_lb_listener" "prometheus_listener" {
-  load_balancer_arn = var.alb_arn
-  port              = 9090
-  protocol          = "HTTP"
+#resource "aws_lb_listener" "prometheus_listener" {
+ # load_balancer_arn = var.alb_arn
+  #port              = 9090
+  #protocol          = "HTTP"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.prometheus_tg.arn
-  }
-}
-
-
-#resource "aws_instance" "ec2_instance" {
-  #ami                         = "ami-00a929b66ed6e0de6"
-  #instance_type               = "t2.micro"
-  #subnet_id                   = var.subnet_id
-  #vpc_security_group_ids      = [aws_security_group.ecs_instance_sg.id]
-  #associate_public_ip_address = true
-  #iam_instance_profile        = aws_iam_instance_profile.ecs_instance_profile.name
-  #tags = {
-   # Name = "ECS EC2 Instance"
+  #default_action {
+   # type             = "forward"
+    #target_group_arn = aws_lb_target_group.prometheus_tg.arn
   #}
 #}
+
+
+resource "aws_instance" "ec2_instance" {
+  ami                         = "ami-00a929b66ed6e0de6"
+  instance_type               = "t2.micro"
+  subnet_id                   = var.subnet_id
+  vpc_security_group_ids      = [aws_security_group.ecs_instance_sg.id]
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.ecs_instance_profile.name
+  tags = {
+    Name = "ECS EC2 Instance"
+  }
+}
 
