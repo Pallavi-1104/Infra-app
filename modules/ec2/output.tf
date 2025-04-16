@@ -10,3 +10,4 @@ output "ecs_instance_sg_id" {
 output "asg_name" {
   value = aws_autoscaling_group.ecs_asg.name
 }
+
