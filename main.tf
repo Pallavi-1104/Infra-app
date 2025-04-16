@@ -25,10 +25,12 @@ module "network" {
 # main.tf
 module "ecs_cluster" {
   source              = "./modules/ecs"
+  ecs_cluster_name    = "my-ecs-cluster"   # ✅ this is correct
   vpc_id              = module.network.vpc_id
   subnet_public_1_id  = module.network.subnet_public_1_id
   subnet_public_2_id  = module.network.subnet_public_2_id
 }
+
 
 data "aws_ssm_parameter" "ecs_ami" {
   name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended"
