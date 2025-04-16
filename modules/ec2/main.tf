@@ -93,3 +93,19 @@ resource "aws_autoscaling_group" "ecs_asg" {
    # Name = "ECS EC2 Instance"
   #}
 #}
+
+resource "aws_ecs_service" "prometheus_grafana" {
+  name            = "prometheus-grafana"
+  cluster         = var.ecs_cluster_id
+  task_definition = aws_ecs_task_definition.prometheus_grafana.arn
+  launch_type     = "EC2"
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.prometheus_tg.arn
+    container_name   = "prometheus"
+    container_port   = 9090
+  }
+
+  desired_count = 1
+  depends_on = [aws_lb_listener.prometheus_listener]
+}
