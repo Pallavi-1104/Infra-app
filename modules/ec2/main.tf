@@ -133,7 +133,7 @@ resource "aws_autoscaling_group" "ecs_asg" {
 #}
 
 
-resource "aws_instance" "ec2_instance" {
+/*resource "aws_instance" "ec2_instance" {
   ami                         = "ami-00a929b66ed6e0de6"
   instance_type               = "t2.micro"
   subnet_id                   = var.subnet_id
@@ -143,5 +143,5 @@ resource "aws_instance" "ec2_instance" {
   tags = {
     Name = "ECS EC2 Instance"
   }
-}
+}*/
 
